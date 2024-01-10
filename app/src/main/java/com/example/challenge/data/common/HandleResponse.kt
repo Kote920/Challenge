@@ -24,6 +24,3 @@ class HandleResponse() {
 
 
 
-open class Application{
-
-}

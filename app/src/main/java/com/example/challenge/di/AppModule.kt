@@ -1,8 +1,9 @@
 package com.example.challenge.di
 
-import roca.kacia.nakitxi.morchenilia.sakitxi
 import com.example.challenge.data.common.HandleResponse
 import com.example.challenge.data.service.connection.ConnectionsService
+import com.example.challenge.data.service.log_in.LogInService
+import com.example.challenge.presentation.event.log_in.LogInEvent
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -13,15 +14,18 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-objects AppModule {
+object AppModule {
     private const val BASE_URL = "https://run.mocky.io/v3/"
+
 
     @Provides
     @Singleton
@@ -54,8 +58,8 @@ objects AppModule {
         }
     }
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideRetrofitClient(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -69,15 +73,24 @@ objects AppModule {
     }
 
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideHandleResponse(): HandleResponse {
         return HandleResponse()
     }
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideConnectionsService(retrofit: Retrofit): ConnectionsService {
         return retrofit.create(ConnectionsService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideLogInService(retrofit: Retrofit): LogInService {
+        return retrofit.create(LogInService::class.java)
+    }
+
+
+
 }

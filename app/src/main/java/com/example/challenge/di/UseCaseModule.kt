@@ -66,4 +66,12 @@ object UseCaseModule {
     ): GetTokenUseCase {
         return GetTokenUseCase(dataStoreRepository = dataStoreRepository)
     }
+
+    @Singleton
+    @Provides
+    fun providelogInUseCase(
+        logInRepository: LogInRepository
+    ): LogInUseCase {
+        return LogInUseCase(logInRepository)
+    }
 }

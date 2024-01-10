@@ -42,7 +42,7 @@ class ConnectionsViewModel @Inject constructor(
 
     private fun fetchConnections() {
         viewModelScope.launch {
-            getConnectionsUseCase().collect {
+            getConnectionsUseCase().collect { it ->
                 when (it) {
                     is Resource.Loading -> _connectionState.update { currentState ->
                         currentState.copy(

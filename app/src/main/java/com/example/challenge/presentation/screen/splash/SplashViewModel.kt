@@ -1,5 +1,6 @@
 package com.example.challenge.presentation.screen.splash
 
+import android.util.Log.d
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.challenge.domain.usecase.datastore.GetTokenUseCase
@@ -12,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel constructor(private val getTokenUseCase: GetTokenUseCase) :
+class SplashViewModel @Inject constructor(private val getTokenUseCase: GetTokenUseCase) :
     ViewModel() {
 
     private val _uiEvent = MutableSharedFlow<SplashUiEvent>()
@@ -26,9 +27,11 @@ class SplashViewModel constructor(private val getTokenUseCase: GetTokenUseCase) 
         viewModelScope.launch {
             getTokenUseCase().collect {
                 if (it.isEmpty())
-                    _uiEvent.emit(SplashUiEvent.NavigateToLogIn)
-                else
+                { _uiEvent.emit(SplashUiEvent.NavigateToLogIn)
+                d("here","Done")}
+                else{
                     _uiEvent.emit(SplashUiEvent.NavigateToConnections)
+                    d("here","Done")}
             }
         }
     }
